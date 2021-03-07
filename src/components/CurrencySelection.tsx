@@ -1,7 +1,7 @@
 /** @jsxRuntime classic /
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react'
-import React, { FC } from 'react'
+import React, { FC, useCallback, useContext } from 'react'
 import Select from 'react-select'
 
 import {
@@ -11,6 +11,7 @@ import {
   SECONDARY_GRAY,
 } from '../constants/colors'
 import { CURRENCY_OPTIONS, SYMBOL } from '../constants/currency'
+import { ConverterContext } from '../context/ConverterContext'
 
 const fieldLabelStyle = css`
   flex: 1;
@@ -23,10 +24,41 @@ const fieldLabelStyle = css`
   color: ${SECONDARY_GRAY};
 `
 
-interface CurrencySelectionProp
-  extends React.ClassAttributes<HTMLDivElement>,
-    React.HTMLAttributes<HTMLDivElement> {}
-export const CurrencySelection: FC<CurrencySelectionProp> = () => {
+interface CurrencySelectionProp {
+  selectionType: 'A' | 'B'
+}
+export const CurrencySelection: FC<CurrencySelectionProp> = ({
+  selectionType,
+}) => {
+  const {
+    currencyA,
+    setCurrencyA,
+    currencyB,
+    setCurrencyB,
+    amountA,
+    setAmountA,
+    amountB,
+    setAmountB,
+    rates,
+    loading,
+  } = useContext(ConverterContext)
+
+  const currentValue = selectionType === 'A' ? currencyA : currencyB
+  const opositeValue = selectionType === 'A' ? currencyB : currencyA
+  const currentAmount = selectionType === 'A' ? amountA : amountB
+  const setCurrentAmount = selectionType === 'A' ? setAmountA : setAmountB
+  const setOpositeAmount = selectionType === 'A' ? setAmountB : setAmountA
+
+  const rate = rates[selectionType === 'A' ? 0 : 1]
+
+  const handleAmountChange = useCallback(
+    (e) => {
+      setCurrentAmount(Number(e.target.value))
+      setOpositeAmount(Number(e.target.value) * rate)
+    },
+    [setCurrentAmount, setOpositeAmount, rate],
+  )
+
   return (
     <div
       css={css`
@@ -51,9 +83,17 @@ export const CurrencySelection: FC<CurrencySelectionProp> = () => {
         <label css={fieldLabelStyle}>
           Currency
           <Select
+            value={currentValue}
+            onChange={(value) => {
+              if (value !== null) {
+                selectionType === 'A'
+                  ? setCurrencyA(value)
+                  : setCurrencyB(value)
+              }
+            }}
+            isOptionDisabled={(option) => option.value === opositeValue.value}
             options={CURRENCY_OPTIONS}
             isClearable={false}
-            defaultValue={CURRENCY_OPTIONS[0]}
             styles={{
               indicatorSeparator: () => ({
                 display: 'none',
@@ -105,6 +145,8 @@ export const CurrencySelection: FC<CurrencySelectionProp> = () => {
           <label css={fieldLabelStyle}>
             Enter amount
             <input
+              value={currentAmount.toString()}
+              onChange={handleAmountChange}
               type="number"
               css={css`
                 box-sizing: border-box;
@@ -143,7 +185,7 @@ export const CurrencySelection: FC<CurrencySelectionProp> = () => {
               bottom: 10px;
             `}
           >
-            {SYMBOL['USD']}
+            {SYMBOL[currentValue.value]}
           </span>
         </div>
       </div>
@@ -155,7 +197,9 @@ export const CurrencySelection: FC<CurrencySelectionProp> = () => {
           color: ${DARK_GRAY};
         `}
       >
-        {`1 USD = 0.835080 EUR`}
+        {loading
+          ? 'Loading...'
+          : `1 ${currentValue.value} = ${rate} ${opositeValue.value}`}
       </span>
     </div>
   )

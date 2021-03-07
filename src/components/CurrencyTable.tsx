@@ -1,13 +1,13 @@
 /** @jsxRuntime classic /
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react'
-import React, { FC, useMemo } from 'react'
+import React, { FC } from 'react'
 import { DARK_GRAY, DETAIL_GRAY, LIGHT_GRAY } from '../constants/colors'
 import { CURRENCIES, CURRENCIES_ARRAY } from '../constants/currency'
 import { useGetExchangeRates } from '../hooks/useGetExchangeRates'
 
 export const CurrencyTable: FC = () => {
-  const { data, loading, error } = useGetExchangeRates({
+  const { data } = useGetExchangeRates({
     variables: {
       baseCurrency: 'USD',
       quoteCurrencies: CURRENCIES_ARRAY,
