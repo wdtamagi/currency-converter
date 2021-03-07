@@ -1,11 +1,19 @@
 /** @jsxRuntime classic /
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react'
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import { DARK_GRAY, DETAIL_GRAY, LIGHT_GRAY } from '../constants/colors'
-import { CURRENCIES } from '../constants/currency'
+import { CURRENCIES, CURRENCIES_ARRAY } from '../constants/currency'
+import { useGetExchangeRates } from '../hooks/useGetExchangeRates'
 
 export const CurrencyTable: FC = () => {
+  const { data, loading, error } = useGetExchangeRates({
+    variables: {
+      baseCurrency: 'USD',
+      quoteCurrencies: CURRENCIES_ARRAY,
+    },
+  })
+
   return (
     <div
       css={css`
@@ -20,7 +28,7 @@ export const CurrencyTable: FC = () => {
           width: 100%;
           border-spacing: 0;
 
-          & > tr > th {
+          & > thead > tr > th {
             background-color: ${LIGHT_GRAY};
             color: ${DARK_GRAY};
             font-size: 18px;
@@ -29,7 +37,7 @@ export const CurrencyTable: FC = () => {
             padding: 20px 23px;
           }
 
-          & > tr > td {
+          & > tbody > tr > td {
             color: ${DARK_GRAY};
             font-size: 18px;
             line-height: 21px;
@@ -38,18 +46,26 @@ export const CurrencyTable: FC = () => {
           }
         `}
       >
-        <tr>
-          <th align="left">Currency</th>
-          <th align="left">Currency Name</th>
-          <th align="left">Exchange Rate = 1 USD</th>
-        </tr>
-        {CURRENCIES.map((currency) => (
-          <tr key={currency.short}>
-            <td>{currency.short}</td>
-            <td>{currency.name}</td>
-            <td>50</td>
+        <thead>
+          <tr>
+            <th align="left">Currency</th>
+            <th align="left">Currency Name</th>
+            <th align="left">Exchange Rate = 1 USD</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {CURRENCIES.map((currency) => (
+            <tr key={currency.short}>
+              <td>{currency.short}</td>
+              <td>{currency.name}</td>
+              <td>
+                {data?.latest.find(
+                  (rate) => rate.quoteCurrency === currency.short,
+                )?.quote ?? 0}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   )

@@ -12,50 +12,6 @@ import {
 } from '../constants/colors'
 import { CURRENCY_OPTIONS, SYMBOL } from '../constants/currency'
 
-const selectFontStyle = {
-  fontSize: '18px',
-  lineHeight: '21px',
-  fontWeight: '500',
-  color: SECONDARY_GRAY,
-}
-
-const selectStyles = {
-  indicatorSeparator: () => ({
-    display: 'none',
-  }),
-  input: (provided) => ({
-    ...provided,
-    ...selectFontStyle,
-  }),
-  control: (provided, state) => ({
-    ...provided,
-    border: `1px solid ${DETAIL_GRAY}`,
-    padding: '10px 20px',
-
-    borderColor: `${DARK_GRAY} !important`,
-  }),
-  menuList: (provided) => ({
-    ...provided,
-    padding: '10px 20px',
-  }),
-  option: (provided) => ({
-    ...provided,
-    ...selectFontStyle,
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    ...selectFontStyle,
-    margin: 0,
-    padding: 0,
-  }),
-  valueContainer: (provided) => ({
-    ...provided,
-    ...selectFontStyle,
-    margin: 0,
-    padding: 0,
-  }),
-}
-
 const fieldLabelStyle = css`
   flex: 1;
   display: flex;

@@ -1,5 +1,4 @@
 export const CURRENCIES = [
-  { short: 'USD', name: 'United States dollar' },
   { short: 'EUR', name: 'Euro' },
   { short: 'JPY', name: 'Japanese yen' },
   { short: 'BGN', name: 'Bulgarian lev' },
@@ -56,4 +55,23 @@ export const CURRENCY_OPTIONS = [
   { label: 'Russian rouble (RUB)', value: 'RUB' },
   { label: 'Turkish lira (TRY)', value: 'TRY' },
   { label: 'Australian dollar (AUD)', value: 'AUD' },
+]
+
+export const CURRENCIES_ARRAY = [
+  'EUR',
+  'JPY',
+  'BGN',
+  'CZK',
+  'GBP',
+  'HUF',
+  'PLN',
+  'RON',
+  'SEK',
+  'CHF',
+  'ISK',
+  'NOK',
+  'HRK',
+  'RUB',
+  'TRY',
+  'AUD',
 ]
