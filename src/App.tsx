@@ -6,6 +6,7 @@ import { ROUTES } from './constants/routes'
 import { RootStyles } from './RootStyles'
 
 const CurrencyConverter = lazy(() => import('./pages/CurrencyConverter'))
+const ExchangeRates = lazy(() => import('./pages/ExchangeRates'))
 
 function App() {
   return (
@@ -17,8 +18,8 @@ function App() {
           <Route path={ROUTES.CURRENCY_CONVERTER}>
             <CurrencyConverter />
           </Route>
-          <Route path={ROUTES.CURRENCY_RATES}>
-            <div />
+          <Route path={ROUTES.EXCHANGE_RATES}>
+            <ExchangeRates />
           </Route>
           <Redirect to={ROUTES.CURRENCY_CONVERTER} />
         </Switch>

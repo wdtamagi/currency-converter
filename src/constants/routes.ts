@@ -1,4 +1,4 @@
 export const ROUTES = {
   CURRENCY_CONVERTER: '/currency-converter',
-  CURRENCY_RATES: '/currency-rates',
+  EXCHANGE_RATES: '/exchange-rates',
 }

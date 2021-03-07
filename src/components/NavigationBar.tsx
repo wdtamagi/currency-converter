@@ -29,7 +29,7 @@ export const NavigationBar: FC = () => {
         <NavigationItem to={ROUTES.CURRENCY_CONVERTER}>
           Currency converter
         </NavigationItem>
-        <NavigationItem to={ROUTES.CURRENCY_RATES}>
+        <NavigationItem to={ROUTES.EXCHANGE_RATES}>
           Current exchange rates
         </NavigationItem>
       </ContentWrapper>
