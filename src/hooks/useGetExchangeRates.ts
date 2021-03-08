@@ -1,6 +1,6 @@
 import { useQuery, gql, QueryHookOptions } from '@apollo/client'
 
-const EXCHANGE_RATES = gql`
+export const EXCHANGE_RATES = gql`
   query GetExchangeRates($baseCurrency: String, $quoteCurrencies: [String!]) {
     latest(baseCurrency: $baseCurrency, quoteCurrencies: $quoteCurrencies) {
       baseCurrency

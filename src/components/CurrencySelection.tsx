@@ -61,6 +61,9 @@ export const CurrencySelection: FC<CurrencySelectionProp> = ({
 
   return (
     <div
+      data-testid={
+        selectionType === 'A' ? 'selection-wrapper-a' : 'selection-wrapper-b'
+      }
       css={css`
         display: flex;
         flex-direction: column;
@@ -145,6 +148,7 @@ export const CurrencySelection: FC<CurrencySelectionProp> = ({
           <label css={fieldLabelStyle}>
             Enter amount
             <input
+              data-testid={selectionType === 'A' ? 'input-a' : 'input-b'}
               value={currentAmount.toString()}
               onChange={handleAmountChange}
               type="number"
